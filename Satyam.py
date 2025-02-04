@@ -394,8 +394,7 @@ async def add_user(update: Update, context: CallbackContext):
 async def remove_user(update: Update, context: CallbackContext):
     user_id = update.effective_user.id
     if user_id != ADMIN_USER_ID:
-        await context.bot.send_message(chat_id=update.effective_chat.id, text="*❌
- You are not authorized to remove users!*", parse_mode='Markdown')
+        await context.bot.send_message(chat_id=update.effective_chat.id, text="*❌You are not authorized to remove users!*", parse_mode='Markdown')
         return
 
     if len(context.args) != 1:
